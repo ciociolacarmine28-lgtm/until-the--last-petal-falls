@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Until the Last Petal Falls</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Georgia', serif;
+            background: linear-gradient(135deg, #ffffff 0%, #fff8b5 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow-x: hidden;
+        }
+
+        .page {
+            display: none;
+            width: 100%;
+            min-height: 100vh;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+
+        .page.active {
+            display: flex;
+        }
+
+        /* Pagina 1 - Rosa principale */
+        .rose-container {
+            text-align: center;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        .rose-container:hover {
+            transform: scale(1.05);
+        }
+
+        .rose {
+            width: 300px;
+            height: 300px;
+            margin: 0 auto 40px;
+            position: relative;
+            animation: float 3s ease-in-out infinite;
+        }
+	.rose-image {
+    width: 300px;
+    height: auto;
+    margin-bottom: 40px;
+    border-radius: 20px; /* opzionale, per angoli arrotondati */
+    box-shadow: 0 5px 20px rgba(0,0,0,0.4);
+    transition: transform 0.3s ease;
+    animation: float 3s ease-in-out infinite; /* mantiene l’effetto “fluttuante” */
+}
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+	#sketchDescription {
+   		font-size: 1.4em;   
+    		line-height: 1.5; 
+    		color: #333; 
+	}
+
+
+        .main-title {
+	    font-family: "Edwardian Script ITC", "Lucida Handwriting", cursive;
+            color: #ff0000;
+            font-size: 4em;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+            letter-spacing: 2px;
+            animation: glow 2s ease-in-out infinite;
+        }
+	
+       
+
+
+
+        /* Pagina 2 - Petali */
+        .petals-container {
+            position: relative;
+            width: 600px;
+            height: 600px;
+        }
+
+        .petal {
+            position: absolute;
+            width: 150px;
+            height: 200px;
+            background: linear-gradient(135deg, #800020 0%, #4b0010 100%);
+            border-radius: 50% 50% 50% 0;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            font-weight: bold;
+            font-size: 1.2em;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+
+        .petal:hover {
+            transform: scale(1.1);
+            box-shadow: 0 10px 25px rgba(255,107,157,0.5);
+        }
+
+        .petal-1 { top: 0; left: 50%; transform: translate(-50%, 0) rotate(-90deg); }
+        .petal-2 { top: 15%; right: 15%; transform: rotate(-45deg); }
+        .petal-3 { top: 50%; right: 0; transform: translate(0, -50%) rotate(0deg); }
+        .petal-4 { bottom: 15%; right: 15%; transform: rotate(45deg); }
+        .petal-5 { bottom: 0; left: 50%; transform: translate(-50%, 0) rotate(90deg); }
+        .petal-6 { bottom: 15%; left: 15%; transform: rotate(135deg); }
+        .petal-7 { top: 50%; left: 0; transform: translate(0, -50%) rotate(180deg); }
+        .petal-8 { top: 15%; left: 15%; transform: rotate(-135deg); }
+
+        /* Modal per mostrare i bozzetti */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.9);
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+font-family: "Edwardian Script ITC", "Lucida Handwriting", cursive;
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            max-width: 600px;
+            max-height: 80vh;
+            overflow-y: auto;
+            position: relative;
+            text-align: center;
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 10px;
+            right: 20px;
+            font-size: 2em;
+            cursor: pointer;
+            color: #c44569;
+            transition: color 0.3s;
+        }
+
+        .close-btn:hover {
+            color: #ff6b9d;
+        }
+
+        .sketch-title {
+            color: #c44569;
+            font-size: 2em;
+            margin-bottom: 20px;
+        }
+
+        .sketch-image {
+    background: none;
+}
+
+        .back-btn {
+            background: linear-gradient(135deg, #ff0000 0%, #b00000 100%);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            font-size: 1.1em;
+            border-radius: 30px;
+            cursor: pointer;
+            margin-top: 30px;
+            transition: transform 0.3s;
+        }
+
+        .back-btn:hover {
+            transform: scale(1.05);
+        }
+    </style>
+</head>
+<body>
+    <!-- Pagina 1: Rosa principale -->
+    <div id="page1" class="page active">
+	<div class="rose-container" onclick="goToPage2()">
+   		<img src="Immagine WhatsApp 2025-10-31 ore 17.31.48_d0c38777.jpg" alt="Rosa" class="rose-image">
+  		<h1 class="main-title">Until the Last Petal Falls</h1>
+	</div>
+    </div>
+
+    <!-- Pagina 2: Petali cliccabili -->
+    <div id="page2" class="page">
+        <div class="petals-container">
+            <div class="petal petal-1" onclick="showSketch(1)">1</div>
+            <div class="petal petal-2" onclick="showSketch(2)">2</div>
+            <div class="petal petal-3" onclick="showSketch(3)">3</div>
+            <div class="petal petal-4" onclick="showSketch(4)">4</div>
+            <div class="petal petal-5" onclick="showSketch(5)">5</div>
+            <div class="petal petal-6" onclick="showSketch(6)">6</div>
+            <div class="petal petal-7" onclick="showSketch(7)">7</div>
+            <div class="petal petal-8" onclick="showSketch(8)">8</div>
+        </div>
+        <button class="back-btn" onclick="goToPage1()">Torna alla Rosa</button>
+    </div>
+
+    <!-- Modal per i bozzetti -->
+    <div id="modal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeModal()">&times;</span>
+            <h2 class="sketch-title" id="sketchTitle">Bozzetto Abito</h2>
+            <div class="sketch-image" id="sketchImage">
+                Qui puoi inserire l'immagine del bozzetto
+            </div>
+            <p id="sketchDescription">Descrizione dell'abito di carnevale</p>
+        </div>
+    </div>
+
+    <script>
+        const sketches = {
+    1: { 
+        title: "Belle", 
+        image: "3.jpg"
+    },
+    2: { 
+        title: "La Bestia", 
+        
+        image: "4.jpg"
+    },
+    3: { 
+        title: "Spolverina", 
+        
+        image: "7.jpg"
+    },
+    4: { 
+        title: "Mrs Bric", 
+      
+        image: "1.jpg"
+    },
+    5: { 
+        title: "Lumìere", 
+        
+        image: "2.jpg"
+    },
+    6: { 
+        title: "Gaston", 
+   
+        image: "5.jpg"
+    },
+    7: { 
+        title: "Tockins", 
+        
+        image: "8.jpg"
+    },
+    8: { 
+        title: "La Rosa", 
+        
+        image: "6.jpg"
+    }
+};
+
+
+        function goToPage2() {
+            document.getElementById('page1').classList.remove('active');
+            document.getElementById('page2').classList.add('active');
+        }
+
+        function goToPage1() {
+            document.getElementById('page2').classList.remove('active');
+            document.getElementById('page1').classList.add('active');
+        }
+
+        function showSketch(number) {
+    const sketch = sketches[number];
+    document.getElementById('sketchTitle').textContent = sketch.title;
+    document.getElementById('sketchDescription').textContent = sketch.description;
+
+    // Mostra l’immagine del bozzetto
+    document.getElementById('sketchImage').innerHTML = `
+        <img src="${sketch.image}" alt="${sketch.title}" 
+             style="width:100%; max-height:400px; object-fit:contain; border-radius:10px;">
+    `;
+
+    document.getElementById('modal').classList.add('active');
+}
+
+
+        function closeModal() {
+            document.getElementById('modal').classList.remove('active');
+        }
+
+        // Chiudi modal cliccando fuori
+        document.getElementById('modal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeModal();
+            }
+        });
+    </script>
+</body>
+</html>
