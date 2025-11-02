@@ -143,7 +143,10 @@
             align-items: center;
             z-index: 1000;
         }
-
+		.petal span {
+    transform: rotate(0deg);
+    display: inline-block;
+}
         .modal.active {
             display: flex;
         }
@@ -213,15 +216,16 @@ font-family: "Edwardian Script ITC", "Lucida Handwriting", cursive;
     <!-- Pagina 2: Petali cliccabili -->
     <div id="page2" class="page">
         <div class="petals-container">
-            <div class="petal petal-1" onclick="showSketch(1)">1</div>
-            <div class="petal petal-2" onclick="showSketch(2)">2</div>
-            <div class="petal petal-3" onclick="showSketch(3)">3</div>
-            <div class="petal petal-4" onclick="showSketch(4)">4</div>
-            <div class="petal petal-5" onclick="showSketch(5)">5</div>
-            <div class="petal petal-6" onclick="showSketch(6)">6</div>
-            <div class="petal petal-7" onclick="showSketch(7)">7</div>
-            <div class="petal petal-8" onclick="showSketch(8)">8</div>
-        </div>
+    <div class="petal petal-1" onclick="showSketch(1)"><span>1</span></div>
+    <div class="petal petal-2" onclick="showSketch(2)"><span>2</span></div>
+    <div class="petal petal-3" onclick="showSketch(3)"><span>3</span></div>
+    <div class="petal petal-4" onclick="showSketch(4)"><span>4</span></div>
+    <div class="petal petal-5" onclick="showSketch(5)"><span>5</span></div>
+    <div class="petal petal-6" onclick="showSketch(6)"><span>6</span></div>
+    <div class="petal petal-7" onclick="showSketch(7)"><span>7</span></div>
+    <div class="petal petal-8" onclick="showSketch(8)"><span>8</span></div>
+</div>
+
         <button class="back-btn" onclick="goToPage1()">Torna alla Rosa</button>
     </div>
 
@@ -319,4 +323,5 @@ font-family: "Edwardian Script ITC", "Lucida Handwriting", cursive;
     </script>
 </body>
 </html>
+
 
